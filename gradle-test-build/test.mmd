@@ -1,0 +1,295 @@
+@startuml
+class Config {
+	
+	+ int MIN_NUMBER_OF_PLAYERS
+	+ Point INITIAL_THIEF_POSITION
+	+ Map INITIAL_RESOURCE_CARDS_BANK
+	- int NUMBER_OF_ROADS_PER_PLAYER
+	- int NUMBER_OF_SETTLEMENTS_PER_PLAYER
+	- int NUMBER_OF_CITIES_PER_PLAYER
+	+ int MAX_CARDS_IN_HAND_NO_DROP
+}
+class StructureAction {
+	<<abstract>>
+	
+}
+class ThreePlayerStandard {
+	
+	+ int NUMBER_OF_PLAYERS
+	+ Map INITIAL_SETTLEMENT_POSITIONS
+	+ Map INITIAL_ROAD_ENDPOINTS
+	+ Map INITIAL_PLAYER_CARD_STOCK
+	+ Map BANK_ALMOST_EMPTY_RESOURCE_CARD_STOCK
+	+ Map PLAYER_ONE_READY_TO_BUILD_FIFTH_SETTLEMENT_RESOURCE_CARD_STOCK
+	+ Map INITIAL_DICE_THROW_PAYOUT
+	+ Map RESOURCE_CARDS_IN_BANK_AFTER_STARTUP_PHASE
+	+ Point PLAYER_ONE_READY_TO_BUILD_FIFTH_SETTLEMENT_FIFTH_SETTLEMENT_POSITION
+	+ List playerOneReadyToBuildFifthSettlementAllSettlementPositions
+}
+class HexBoard {
+	
+	- int maxCoordinateX
+	- int maxCoordinateY
+	- Map field
+	- Map corner
+	- Map edge
+	- Map annotation
+}
+class Faction {
+	<<enumeration>>
+	+ Faction RED
+	+ Faction BLUE
+	+ Faction GREEN
+	+ Faction YELLOW
+	- String name
+}
+class SiedlerBoardTextView {
+	
+	- char SETTLEMENT_CHAR
+	- char CITY_CHAR
+	- Label EMPTY_LABEL
+	- SiedlerBoard board
+}
+class SiedlerGameTestBasic {
+	
+	- int DEFAULT_WINPOINTS
+	- int DEFAULT_NUMBER_OF_PLAYERS
+}
+class Label {
+	
+	+ char DEFAULT_CHARACTER
+	- char first
+	- char second
+}
+class StreetInfo {
+	
+	~ Point start
+	~ Point end
+}
+class FieldAnnotationPosition {
+	
+	- Point field
+	- Point corner
+}
+class BuildingAction {
+	<<abstract>>
+	
+}
+class Land {
+	<<enumeration>>
+	+ Land FOREST
+	+ Land PASTURE
+	+ Land FIELDS
+	+ Land MOUNTAIN
+	+ Land HILLS
+	+ Land WATER
+	+ Land DESERT
+	- Resource resource
+	- String name
+}
+class HexBoardTest {
+	
+	- HexBoard board
+	- Point[] corner
+}
+class CityAction {
+	
+	
+}
+class Structure {
+	<<enumeration>>
+	+ Structure SETTLEMENT
+	+ Structure CITY
+	+ Structure ROAD
+	- List costs
+	- int stockPerPlayer
+}
+class SettlementAction {
+	
+	
+}
+class Action {
+	<<abstract>>
+	- SiedlerGame game
+	- TextIO io
+}
+class Bank {
+	
+	
+}
+class ResourceHolder {
+	<<abstract>>
+	- Map resources
+}
+class SiedlerStreet {
+	
+	
+}
+class InitialStreetAction {
+	
+	
+}
+class HexBoardTextView {
+	
+	- String ONE_SPACE
+	- String TWO_SPACES
+	- String FOUR_SPACES
+	- String FIVE_SPACES
+	- String SIX_SPACES
+	- String SEVEN_SPACES
+	- String NINE_SPACES
+	- HexBoard board
+	- Label emptyLabel
+	- Label defaultDiagonalEdgeDownLabel
+	- Label defaultDiagonalEdgeUpLabel
+	- Label defaultVerticalEdgeLabel
+	- Map fixedLowerFieldLabels
+}
+class PlaceThiefAction {
+	
+	
+}
+class Tuple {
+	
+	+ X first
+	+ Y second
+}
+class SiedlerSettlement {
+	
+	- int VICTORY_POINTS
+	- int RESOURCE_COUNT
+}
+class SiedlerField {
+	
+	- Land fieldType
+	- int diceValue
+}
+class Dummy {
+	
+	
+}
+class Actions {
+	<<enumeration>>
+	+ Actions SHOW
+	+ Actions QUIT
+}
+class InitialSettlementAction {
+	
+	- boolean payout
+}
+class Controller {
+	
+	- int WIN_POINTS
+	- TextIO io
+	- Random random
+}
+class InventoryPrinter {
+	
+	- SiedlerGame game
+}
+class StreetAction {
+	
+	
+}
+class Edge {
+	
+	- Point start
+	- Point end
+}
+class SiedlerBoard {
+	
+	
+}
+class SiedlerGame {
+	
+	- int FOUR_TO_ONE_TRADE_OFFER
+	- int FOUR_TO_ONE_TRADE_WANT
+	- int winPoints
+	- int numberOfPlayers
+	- int currentPlayer
+	- Player[] players
+	- Bank bank
+	- Point thiefPoint
+	- SiedlerBoard board
+	- Random random
+}
+class EdgeTest {
+	
+	- Point[] hexagon22
+	- Point[] hexagon75
+}
+class App {
+	
+	
+}
+class TradeAction {
+	
+	
+}
+class Player {
+	
+	- Faction faction
+}
+class Resource {
+	<<enumeration>>
+	+ Resource GRAIN
+	+ Resource WOOL
+	+ Resource LUMBER
+	+ Resource ORE
+	+ Resource BRICK
+	- String name
+}
+class ActionType {
+	<<enumeration>>
+	+ ActionType Trade
+	+ ActionType Build
+	+ ActionType End
+	+ ActionType Quit
+}
+class SiedlerStructure {
+	<<abstract>>
+	- Player owner
+	- Structure structure
+}
+class Direction {
+	<<enumeration>>
+	+ Direction NATURAL
+	+ Direction REVERSE
+}
+class SiedlerGameTest {
+	
+	
+}
+class BuildSelectionAction {
+	
+	
+}
+class SiedlerCity {
+	
+	- int VICTORY_POINTS
+	- int RESOURCE_COUNT
+}
+class PaymentPerformer {
+	
+	- Map result
+	- int totalAmount
+	- List fields
+}
+SiedlerSettlement --|> SiedlerStructure
+StreetAction --|> StructureAction
+SiedlerStreet --|> SiedlerStructure
+InitialSettlementAction --|> SettlementAction
+InitialStreetAction --|> StreetAction
+SettlementAction --|> BuildingAction
+Bank --|> ResourceHolder
+PlaceThiefAction --|> BuildingAction
+SiedlerBoardTextView --|> HexBoardTextView
+SiedlerBoard --|> HexBoard
+TradeAction --|> Action
+SiedlerCity --|> SiedlerSettlement
+BuildingAction --|> StructureAction
+StructureAction --|> Action
+Player --|> ResourceHolder
+CityAction --|> BuildingAction
+BuildSelectionAction --|> Action
+@enduml

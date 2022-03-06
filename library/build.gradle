@@ -1,0 +1,22 @@
+plugins {
+    // Apply the application plugin to add support for building a CLI application in Java.
+    id 'java-library'
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+dependencies {
+    api group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '10.0.0'
+    implementation "ch.qos.logback:logback-core:1.2.9"
+    implementation "org.slf4j:slf4j-api:1.7.32"
+    // Use JUnit Jupiter for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
