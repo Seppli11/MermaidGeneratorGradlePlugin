@@ -87,7 +87,7 @@ import java.util.Set;
  * @author tebe
  *
  */
-public class HexBoard<F, C, E, A> {
+public class HexBoard<F, C extends List<C>, E super List<E>, A> {
   private int maxCoordinateX = 0;
   private int maxCoordinateY = 0;
   private final Map<Point, F> field;

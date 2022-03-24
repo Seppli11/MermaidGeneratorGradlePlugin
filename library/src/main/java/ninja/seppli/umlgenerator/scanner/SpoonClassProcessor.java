@@ -1,41 +1,31 @@
 package ninja.seppli.umlgenerator.scanner;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import com.martiansoftware.jsap.Option;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ninja.seppli.umlgenerator.scanner.model.DiagramClass;
+import ninja.seppli.umlgenerator.scanner.model.DiagramClass.DiagramClassType;
 import ninja.seppli.umlgenerator.scanner.model.DiagramField;
 import ninja.seppli.umlgenerator.scanner.model.DiagramMethod;
+import ninja.seppli.umlgenerator.scanner.model.DiagramMethod.DiagramMethodParameter;
 import ninja.seppli.umlgenerator.scanner.model.DiagramModel;
 import ninja.seppli.umlgenerator.scanner.model.DiagramPackage;
 import ninja.seppli.umlgenerator.scanner.model.DiagramRelation;
+import ninja.seppli.umlgenerator.scanner.model.DiagramRelation.RelationType;
 import ninja.seppli.umlgenerator.scanner.model.DiagramType;
 import ninja.seppli.umlgenerator.scanner.model.DiagramUnkownType;
 import ninja.seppli.umlgenerator.scanner.model.DiagramVisibility;
-import ninja.seppli.umlgenerator.scanner.model.DiagramClass.DiagramClassType;
-import ninja.seppli.umlgenerator.scanner.model.DiagramMethod.DiagramMethodParameter;
-import ninja.seppli.umlgenerator.scanner.model.DiagramRelation.RelationType;
 import ninja.seppli.umlgenerator.scanner.model.packagelist.PackageList;
-import spoon.processing.AbstractProcessor;
 import spoon.reflect.CtModel;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtConstructor;
-import spoon.reflect.declaration.CtElement;
-import spoon.reflect.declaration.CtExecutable;
 import spoon.reflect.declaration.CtField;
 import spoon.reflect.declaration.CtMethod;
-import spoon.reflect.declaration.CtModifiable;
 import spoon.reflect.declaration.CtPackage;
 import spoon.reflect.declaration.CtParameter;
 import spoon.reflect.declaration.CtType;
@@ -83,6 +73,7 @@ public class SpoonClassProcessor {
     }
 
     private DiagramClass processClass(CtClass<?> element) {
+        System.out.println(element.getSimpleName());
         String classPackage = element.getPackage().getQualifiedName();
         if (ignorePackageList.containsPackageRef(classPackage)) {
             return null;
@@ -182,9 +173,5 @@ public class SpoonClassProcessor {
             case PUBLIC -> DiagramVisibility.PUBLIC;
             default -> DiagramVisibility.PACKAGE_PRIVATE;
         };
-    }
-
-    public static void main(String[] args) {
-        System.out.println("test");
     }
 }

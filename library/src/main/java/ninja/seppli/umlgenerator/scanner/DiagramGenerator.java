@@ -18,7 +18,6 @@ import ninja.seppli.umlgenerator.scanner.model.packagelist.PackageList;
 import spoon.Launcher;
 import spoon.processing.ProcessingManager;
 import spoon.reflect.CtModel;
-import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.factory.Factory;
 import spoon.support.QueueProcessingManager;
 
@@ -117,7 +116,8 @@ public class DiagramGenerator {
     }
 
     public static void main(String[] args) {
-        new DiagramGenerator().addFiles("library/").scan();
+        // new DiagramGenerator().addFiles("library/").scan();
+        new DiagramGenerator().addFiles("gradle-test-build/").scan();
     }
 
 }
