@@ -1,0 +1,21 @@
+subprojects {
+    apply plugin: "maven-publish"
+	apply plugin: 'java-library'
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/Seppli11/MermaidGeneratorGradlePlugin")
+                credentials {
+                    username = project.findProperty("gpr.user") ?: "Seppli11"
+                    password = project.findProperty("gpr.key") ?: "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"
+                }
+            }
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
+            }
+        }
+    }
+}

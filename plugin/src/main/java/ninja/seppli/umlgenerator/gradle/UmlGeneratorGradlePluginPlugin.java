@@ -11,7 +11,7 @@ import org.gradle.api.Project;
  */
 public class UmlGeneratorGradlePluginPlugin implements Plugin<Project> {
     public void apply(Project project) {
-        project.getExtensions().create("mermaidGenerator", UmlGeneratorExtension.class);
+        project.getExtensions().create("umlGenerator", UmlGeneratorExtension.class);
         project.getTasks().create("generateUml", UmlGeneratorTask.class);
     }
 }

@@ -4,7 +4,7 @@ plugins {
     id 'ninja.seppli.umlgenerator'
 }
 
-mermaidGenerator {
+umlGenerator {
     //filesToScan = layout.files("./")
     outputFile = file("./test.plantuml")
 }

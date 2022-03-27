@@ -13,12 +13,14 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ninja.seppli.umlgenerator.scanner.model.DiagramModel;
-import ninja.seppli.umlgenerator.scanner.model.packagelist.PackageList;
+import ninja.seppli.umlgenerator.options.GeneralUmlOptions;
+import ninja.seppli.umlgenerator.options.UmlOptions;
+import ninja.seppli.umlgenerator.renderer.PlantumlRenderer;
 import spoon.Launcher;
 import spoon.processing.ProcessingManager;
 import spoon.reflect.CtModel;
 import spoon.reflect.factory.Factory;
+import spoon.support.Level;
 import spoon.support.QueueProcessingManager;
 
 /**
@@ -33,7 +35,8 @@ public class DiagramGenerator {
     /**
      * which packages are ignored by default
      */
-    private final PackageList DEFAULT_PACKAGES_TO_IGNORE = PackageList.createFromPackagePaths("java.lang");
+    // private final PackageList DEFAULT_PACKAGES_TO_IGNORE =
+    // PackageList.createFromPackagePaths("java.lang");
 
     /**
      * the paths which should be scanned
@@ -41,9 +44,30 @@ public class DiagramGenerator {
     private Set<Path> pathList = new HashSet<>();
 
     /**
+     * the options
+     */
+    private GeneralUmlOptions options;
+
+    /**
      * Constructor
      */
     public DiagramGenerator() {
+    }
+
+    /**
+     * Constructor
+     * 
+     * @pram options the options
+     */
+    public DiagramGenerator(GeneralUmlOptions options) {
+        this.options = options;
+    }
+
+    /**
+     * @return the options
+     */
+    public GeneralUmlOptions getOptions() {
+        return options;
     }
 
     /**
@@ -86,8 +110,12 @@ public class DiagramGenerator {
      * @see #addFiles(String...)
      * @see #addFolder(String)
      */
-    public DiagramModel scan() {
+    public CtModel scan() {
+        if (options == null)
+            options = GeneralUmlOptions.DEFAULT_OPTIONS;
         Launcher launcher = new Launcher();
+        launcher.getEnvironment().setLevel(Level.DEBUG.name());
+        launcher.getEnvironment().setComplianceLevel(options.getLanguageLevel());
         pathList.stream().map(Path::toAbsolutePath).filter(this::fileExistsFilter).map(Path::toString)
                 .forEach(launcher::addInputResource);
         launcher.run();
@@ -95,10 +123,7 @@ public class DiagramGenerator {
         Factory factory = launcher.getFactory();
         ProcessingManager processingManager = new QueueProcessingManager(factory);
         processingManager.process(factory.Module().getAllModules());
-        CtModel ctModel = launcher.getModel();
-        SpoonClassProcessor classProcessor = new SpoonClassProcessor();
-        classProcessor.processModel(ctModel);
-        return classProcessor.getMermaidModel();
+        return launcher.getModel();
     }
 
     /**
@@ -108,7 +133,7 @@ public class DiagramGenerator {
      * @return if the path exists or not
      */
     private boolean fileExistsFilter(Path path) {
-        if (!path.toFile().exists()) {
+        if (path == null || !path.toFile().exists()) {
             logger.warn("File \"{}\" doesn't exist", path);
             return false;
         }
@@ -117,7 +142,11 @@ public class DiagramGenerator {
 
     public static void main(String[] args) {
         // new DiagramGenerator().addFiles("library/").scan();
-        new DiagramGenerator().addFiles("gradle-test-build/").scan();
+        CtModel model = new DiagramGenerator().addFiles(
+                "/home/sebi/Documents/code/java/MermaidGeneratorGradlePlugin/racetrack/src/main/java/ch/zhaw/pm2/racetrack/algorithm/pathfinder")
+                .scan();
+        String str = new PlantumlRenderer().render(model, new UmlOptions());
+        System.out.println(str);
     }
 
 }

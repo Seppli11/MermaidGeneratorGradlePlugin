@@ -12,7 +12,7 @@ import org.gradle.api.tasks.TaskAction;
 import ninja.seppli.umlgenerator.renderer.Renderer;
 import ninja.seppli.umlgenerator.scanner.DiagramGenerator;
 import ninja.seppli.umlgenerator.scanner.DiagramWriter;
-import ninja.seppli.umlgenerator.scanner.model.DiagramModel;
+import spoon.reflect.CtModel;
 
 public abstract class UmlGeneratorTask extends DefaultTask {
 
@@ -30,7 +30,7 @@ public abstract class UmlGeneratorTask extends DefaultTask {
             Path[] inputFiles = inputPaths.getFiles().stream().map(File::toPath)
                     .toArray(Path[]::new);
             getLogger().info("scanning directories and files {}", Arrays.toString(inputFiles));
-            DiagramModel model = new DiagramGenerator()
+            CtModel model = new DiagramGenerator()
                     .addFiles(inputFiles)
                     .scan();
 

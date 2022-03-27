@@ -3,15 +3,19 @@ plugins {
     id 'java-library'
 }
 
+group = "ninja.seppli.umlgenerator"
+version = "0.0.2"
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
 dependencies {
-    api group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '10.0.0'
+    api group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '10.0.1-beta-9'
     implementation "ch.qos.logback:logback-core:1.2.9"
     implementation "org.slf4j:slf4j-api:1.7.32"
+    implementation "org.slf4j:slf4j-simple:1.7.32"
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
 }
